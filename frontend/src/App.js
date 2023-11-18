@@ -8,13 +8,15 @@ import ListaDulces from "./pages/dulces/ListaDulces";
 import CrearDulce from "./pages/dulces/CrearDulce";
 import ActualizarDulce from "./pages/dulces/ActualizarDulce"; 
 import DulcesCatalogo from "./pages/dulces/DulcesCatalgo";
+import Index from "./pages/auth/index";
 
 function App() {
   return (
     <Fragment>
       <Router>
         <Routes>
-          <Route path="/" exact element={<Login/>} />
+          <Route path="/Login" exact element={<Login/>} />
+          <Route path="/" exact element={<Index/>} />
           <Route path="/CrearCuenta" exact element={<CrearCuenta/>}/>
           <Route path="/Home" exact element={<Home/>}/>
           <Route path="/list" exact element={<ListaDulces/>}/>
