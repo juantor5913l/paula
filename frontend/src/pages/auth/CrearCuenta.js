@@ -24,6 +24,7 @@ const CrearCuenta = () => {
     }
 
     const [usuario, setUsuario] = useState({
+        idRol:"655adf8599290f27821f8ef8",
         nombre: "",
         apellido: "",
         email: "",
@@ -46,6 +47,7 @@ const CrearCuenta = () => {
     const crearCuenta = async () => {
 
         const data = {
+            idRol: usuario.idRol,
             nombre: usuario.nombre,
             apellido: usuario.apellido,
             email: usuario.email,

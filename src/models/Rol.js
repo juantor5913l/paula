@@ -20,4 +20,4 @@ const rolSchema = mongoose.Schema(
   );
   
   const Rol = mongoose.model("Rol", rolSchema);
-  export default Rol;
+  module.exports = Rol;
