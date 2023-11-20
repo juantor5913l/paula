@@ -1,145 +1,165 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import APIInvoke from "../../utils/APIInvoke";
 import swal from "sweetalert";
-import { useNavigate } from "react-router-dom";
+import '../auth/login/css/style.css';
 
 const Login = () => {
-
-    //MENSAJE DE ALERTA
-    const alerta= (mensaje, tipo, titulo)=>{
+    const alerta = (mensaje, tipo, titulo) => {
         swal({
             title: titulo,
-            text: mensaje, 
+            text: mensaje,
             icon: tipo,
             buttons: {
-                confirm:{
+                confirm: {
                     text: "Aceptar",
-                    value: true, 
+                    value: true,
                     visible: true,
                     className: "btn btn-secondary",
-                    closeModal: true
-                }
-            }
+                    closeModal: true,
+                },
+            },
         });
-    }
+    };
 
-    const navegador = useNavigate(); 
+    const navegador = useNavigate();
 
     const [usuario, setUsuario] = useState({
         email: "",
-        contra: ""
-    })
+        contra: "",
+    });
 
-    const { email, contra } = usuario; 
+    const { email, contra } = usuario;
 
-    const onChange = (e) =>{
+    const onChange = (e) => {
         setUsuario({
             ...usuario,
-            [e.target.name]: e.target.value
-        }); 
-    }
+            [e.target.name]: e.target.value,
+        });
+    };
 
-    useEffect(()=>{
-        document.getElementById("email").focus(); 
-    },[]); 
+    useEffect(() => {
+        document.getElementById("email").focus();
+    }, []);
 
-    const iniciarSesion = async ()=>{
-        
+    const iniciarSesion = async () => {
         const data = {
             email: usuario.email,
-            contra: usuario.contra
-        }
+            contra: usuario.contra,
+        };
 
-        const response = await APIInvoke.invokePOST("/usuarios/login", data); 
+        const response = await APIInvoke.invokePOST("/usuarios/login", data);
 
-        const acceso = response.mensaje; 
-        let titulo, msg, tipo; 
-        if(acceso==="Ingreso"){
-            titulo = "Proceso Exitoso!"; 
-            msg = "Ingreso exitoso al sistema"; 
+        const acceso = response.mensaje;
+        let titulo, msg, tipo;
+        if (acceso === "Ingreso") {
+            titulo = "Proceso Exitoso!";
+            msg = "Ingreso exitoso al sistema";
             tipo = "success";
             alerta(msg, tipo, titulo);
 
-            localStorage.setItem("user", response.usuario); 
+            localStorage.setItem("user", response.usuario);
 
-            navegador("/Home"); 
-        }
-        else if(acceso==="Denegado"){
-            titulo = "Acceso Denegado"; 
-            msg = "Usuario o contraseña incorrectos"; 
+            navegador("/Home");
+        } else if (acceso === "Denegado") {
+            titulo = "Acceso Denegado";
+            msg = "Usuario o contraseña incorrectos";
             tipo = "error";
             alerta(msg, tipo, titulo);
         }
 
         setUsuario({
             email: "",
-            contra: ""
-        }); 
-    }
+            contra: "",
+        });
+    };
 
-    const onSubmit = (e) =>{
-        e.preventDefault(); 
-        iniciarSesion(); 
-    }
+    const onSubmit = (e) => {
+        e.preventDefault();
+        iniciarSesion();
+    };
+
     return (
-        <div className="container">
-            <div className="row mt-5" >
-                <div className="col">
-
-                </div>
-                <div className="col-5">
-                    <div className="card text-center">
-                        <div className="card-header">
-                            Acceso al sistema
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={onSubmit}>
-                                <div>
-                                    <div className="form-floating mb-3">
-                                        <input 
-                                            type="email" 
-                                            className="form-control" 
-                                            placeholder="name@example.com"
-                                            id="email" 
+        <section className="ftco-section">
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-md-12 col-lg-10">
+                        <div className="wrap d-md-flex">
+                            <div className="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+                                <div className="text w-100">
+                                    <h2>Bienvenido a Mi Dulce Online</h2>
+                                    <p>¿No tienes una cuenta?</p>
+                                    <Link
+                                        to="/registrar"
+                                        className="btn btn-white btn-outline-white"
+                                    >
+                                        Registrate
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className="login-wrap p-4 p-lg-5">
+                                <div className="d-flex">
+                                    <div className="w-100">
+                                        <h3 className="mb-4">Iniciar Sesion</h3>
+                                    </div>
+                                </div>
+                                <form
+                                    onSubmit={onSubmit}
+                                    className="signin-form"
+                                >
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="Correo"
+                                            id="email"
                                             name="email"
                                             value={email}
                                             onChange={onChange}
                                             required
                                         />
-                                        <label htmlFor="floatingInput">Correo Electrónico</label>
+                                        <label
+                                            className="label"
+                                            htmlFor="floatingInput"
+                                        >
+                                            Correo
+                                        </label>
                                     </div>
-                                    <div className="form-floating">
-                                        <input 
-                                            type="password" 
-                                            className="form-control"  
-                                            placeholder="Contraseña" 
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            placeholder="Contraseña"
                                             id="contra"
                                             name="contra"
                                             value={contra}
                                             onChange={onChange}
                                             required
                                         />
-                                        <label htmlFor="floatingPassword">Contraseña</label>
+                                        <label
+                                            className="label"
+                                            htmlFor="floatingPassword"
+                                        >
+                                            Contraseña
+                                        </label>
                                     </div>
-                                </div>
-                                <div className="container mt-4">
-                                    <button type="submit" className="btn btn-primary my-2">Iniciar Sesión</button>
-                                    <Link to={"/CrearCuenta"} className="btn btn-secondary mx-2">Crear Cuenta</Link>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="card-footer text-muted">
-                            ¿Olvidaste tu contraseña?
+                                    <div className="form-group">
+                                        <button
+                                            type="submit"
+                                            className="form-control btn btn-primary submit px-3"
+                                        >
+                                            Iniciar Sesion
+                                        </button>
+                                        <Link to="/">Cancelar</Link>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="col">
-                </div>
             </div>
-        </div>
+        </section>
     );
-}
+};
 
-export default Login; 
+export default Login;

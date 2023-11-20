@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const dulceSave = async (req, res) =>  {
     try {
         const {referencia, nombre, cantidad,precio,Descripcion} = req.body;
-
         let dulce = await Dulce.findOne({referencia});
 
         if(dulce){
@@ -79,23 +78,7 @@ const dulceEdit = async (req, res) => {
         await Dulce.findByIdAndUpdate(id, dulce); 
         return res.status(200).json({ mensaje: "Se edito el dulce correctamente"}); 
 
-        const payload = {
-            dulce: { id: dulce.id },
-        };
-      
-        jwt.sign(
-            payload,
-            process.env.SECRETA,
-            {
-              expiresIn: 3600, //1 hora
-            },
-            (error, token) => {
-              if (error) throw error;
-      
-              //Mensaje de confirmación
-              res.json({ token });
-            }
-        );
+        
     } catch (error) {
         console.log(error); 
     }

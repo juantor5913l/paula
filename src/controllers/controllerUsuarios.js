@@ -17,24 +17,6 @@ const usuarioSave = async (req, res) => {
         }
 
         
-        const payload = {
-            usuario: { id: usuario.id },
-          };
-      
-        jwt.sign(
-            payload,
-            process.env.SECRETA,
-            {
-              expiresIn: 3600, //1 hora
-            },
-            (error, token) => {
-              if (error) throw error;
-      
-              //Mensaje de confirmación
-              res.json({ token });
-            }
-        );
-        
     } catch (error) {
         console.log(error); 
     }
@@ -58,25 +40,6 @@ const usuarioLogin = async (req, res) => {
         else{
             return res.status(400).json({ mensaje: "Denegado" }); 
         }
-
-        //FIRMAR EL TOKEN
-        const payload = {
-            usuario: { id: usuario.id },
-          };
-      
-        jwt.sign(
-            payload,
-            process.env.SECRETA,
-            {
-              expiresIn: 3600, //1 hora
-            },
-            (error, token) => {
-              if (error) throw error;
-      
-              //Mensaje de confirmación
-              res.json({ token });
-            }
-        );
 
     } catch (error) {
         console.log(error); 

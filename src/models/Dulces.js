@@ -22,6 +22,10 @@ const DulcesSchema = new mongo.Schema(
         Descripcion: {
             type: String,
             required: true
+        },
+        imagen: {
+            type: String,
+            required: true
         }
     },
     {

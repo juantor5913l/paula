@@ -1,6 +1,5 @@
 import React from "react";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import APIInvoke from "../../utils/APIInvoke"; 
@@ -10,208 +9,257 @@ import swal from "sweetalert";
 
 
 const Actualizardulce = () => {
-
-    const alerta= (mensaje, tipo, titulo)=>{
+    const alerta = (mensaje, tipo, titulo) => {
         swal({
             title: titulo,
-            text: mensaje, 
+            text: mensaje,
             icon: tipo,
             buttons: {
-                confirm:{
-                    text: "Aceptar",
-                    value: true, 
+                confirm: {
+                    text: 'Aceptar',
+                    value: true,
                     visible: true,
-                    className: "btn btn-secondary",
-                    closeModal: true
-                }
-            }
+                    className: 'btn btn-secondary',
+                    closeModal: true,
+                },
+            },
         });
-    }
+    };
 
-    const navegador = useNavigate(); 
-    const { id } = useParams(); 
+    const navegador = useNavigate();
+    const { id } = useParams();
 
-    const [dulce, setdulce] = useState({
-        referencia: "",
-        nombre: "",
-        cantidad: "",
-        precio: "",
-        Descripcion:"",
-        imagen:""
-    }); 
-    
-    const { referencia, nombre, cantidad ,precio,Descripcion,imagen} = dulce; 
-    
-    const cargarDatos = async ()=>{
-        const response = await APIInvoke.invokeGET("/dulces/find/"+id);
-        setdulce(response);  
+    const [dulce, setDulce] = useState({
+        referencia: '',
+        nombre: '',
+        cantidad: '',
+        precio: '',
+        Descripcion: '',
+        imagen: '', // Nueva propiedad para almacenar la URL de la imagen
+    });
 
-    }
+    const { referencia, nombre, cantidad, precio, Descripcion} = dulce;
 
-    useEffect(()=>{
-        document.getElementById("referencia").focus(); 
+    const cargarDatos = async () => {
+        const response = await APIInvoke.invokeGET('/dulces/find/' + id);
+        setDulce(response);
+    };
+
+    useEffect(() => {
+        document.getElementById('referencia').focus();
         cargarDatos();
-    },[]); 
+    }, []);
 
-    const onChange = (e)=>{
-        setdulce({
+    const onChange = (e) => {
+        setDulce({
             ...dulce,
-            [e.target.name]: e.target.value
-        }); 
-    }
+            [e.target.name]: e.target.value,
+        });
+    };
 
-    const editardulce = async ()=>{
+    const handleImagenChange = (e) => {
+        // Manejar la carga de la imagen
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setDulce({
+                    ...dulce,
+                    imagen: reader.result, // Almacenar la URL de la imagen
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const editardulce = async () => {
         const data = {
-            referencia: dulce.referencia, 
-            nombre: dulce.nombre, 
+            referencia: dulce.referencia,
+            nombre: dulce.nombre,
             cantidad: dulce.cantidad,
             precio: dulce.precio,
             Descripcion: dulce.Descripcion,
-            imagen: dulce.imagen
-        }
+            imagen: dulce.imagen,
+        };
 
-        const response = await APIInvoke.invokePUT("/dulces/edit/"+id, data);
-        let msj, tipo, titulo; 
+        const response = await APIInvoke.invokePUT('/dulces/edit/' + id, data);
+        let msj, tipo, titulo;
 
-        if(response.mensaje === "Se edito el dulce correctamente"){
-            msj = "dulce editado correctamente"; 
-            tipo = "success";
-            titulo = "Proceso exitoso"; 
+        if (response.mensaje === 'Se edito el dulce correctamente') {
+            msj = 'Dulce editado correctamente';
+            tipo = 'success';
+            titulo = 'Proceso exitoso';
             alerta(msj, tipo, titulo);
 
-            navegador("/list"); 
-        }
-        else {
-            msj = "No se pudo editar el dulce"; 
-            tipo = "error";
-            titulo = "Error en el proceso"; 
+            navegador('/list');
+        } else {
+            msj = 'No se pudo editar el dulce';
+            tipo = 'error';
+            titulo = 'Error en el proceso';
             alerta(msj, tipo, titulo);
 
-            navegador("/list");
+            navegador('/list');
         }
-    }
+    };
 
-    const onSubmit = (e)=>{
-        e.preventDefault(); 
-        editardulce(); 
-    }
+    const onSubmit = (e) => {
+        e.preventDefault();
+        editardulce();
+    };
 
     return (
         <div>
-            <Navbar />
-            <main>
+            <header id="header" className="header d-flex align-items-center">
+                <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
+                    <Link to="/admin" className="logo d-flex align-items-center">
+                        <h1>Mi Dulce Online<span>.</span></h1>
+                    </Link>
+                    <nav id="navbar" className="navbar">
+                        <ul>
+                            <li><Link to="/crear">Agregar Dulce</Link></li>
+                            <li><Link to="/list">Listar Dulce</Link></li>
+                            <li><Link to="/catalogo">Catalogo de Dulces</Link></li>
+                            <li><Link to="/">Cerrar Sesion</Link></li>
+                        </ul>
+                    </nav>{/* .navbar */}
+                </div>
+            </header>
+            <center> <section className="ftco-section">
                 <div className="container">
-                    <br></br>
-                    <br></br>
-                    <div className="row mt-5" >
-                        <div className="col">
+                    <div className="row justify-content-center">
+                        <div className="col-md-12 col-lg-10">
 
-                        </div>
-                        <div className="col-8">
-                            <div className="card text-center">
-                                <div className="card-header">
-                                    <h2>Actualizar dulce</h2>
+                            <div className="login-wrap p-4 p-lg-5">
+                                <div className="d-flex">
+                                    <div className="w-100">
+                                        <h3 className="mb-4">Actualiza un dulce</h3>
+                                    </div>
                                 </div>
-                                <div className="card-body">
-                                    <form onSubmit={onSubmit} >
-                                        <div>
-                                            <div className="form-floating mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="referencia"
-                                                    placeholder="referencia"
-                                                    name="referencia"
-                                                    value={referencia}
-                                                    onChange={onChange}
-                                                    required
-                                                    readOnly
-                                                />
-                                                <label htmlFor="floatingInput">referencia</label>
-                                            </div>
-                                            <div className="form-floating mb-3">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="nombre"
-                                                    placeholder="nombre"
-                                                    name="nombre"
-                                                    value={nombre}
-                                                    onChange={onChange}
-                                                    required
-                                                />
-                                                <label htmlFor="floatingInput">nombre</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="cantidad"
-                                                    placeholder="cantidad"
-                                                    name="cantidad"
-                                                    value={cantidad}
-                                                    onChange={onChange}
-                                                    required
-                                                />
-                                                <label htmlFor="floatingPassword">cantidad</label>
-                                            </div>
-                                        </div>
-                                        <br></br>
-                            <div className="form-floating mb-3">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="precio"
-                                        placeholder="precio"
-                                        name="precio"
-                                        value={precio}
-                                        onChange={onChange}
-                                        required
-                                    />
-                                    <label htmlFor="floatingInput">Precio</label>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="Descripcion"
-                                        placeholder="Descripcion"
-                                        name="Descripcion"
-                                        value={Descripcion}
-                                        onChange={onChange}
-                                        required
-                                    />
-                                    <label htmlFor="floatingInput">Descripcion</label>
-                                </div>
-                                <div className="form-floating mb-3">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="imagen"
-                                        placeholder="imagen"
-                                        name="imagen"
-                                        value={imagen}
-                                        onChange={onChange}
-                                        required
-                                    />
-                                    <label htmlFor="floatingInput">imagen</label>
-                                </div>
-                                        <div className="container mt-4">
-                                            <button type="submit" className="btn btn-secondary my-2">Editar dulce</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="card-footer text-muted">
-                                    Todos los campos son obligatorios
-                                </div>
+                                <form onSubmit={onSubmit} className="signin-form">
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="referencia"
+                                            placeholder="Referencia"
+                                            name="referencia"
+                                            value={referencia}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Referencia
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="nombre"
+                                            placeholder="Nombre"
+                                            name="nombre"
+                                            value={nombre}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Nombre
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            id="cantidad"
+                                            placeholder="Cantidad"
+                                            name="cantidad"
+                                            value={cantidad}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Cantidad
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            id="precio"
+                                            placeholder="Precio"
+                                            name="precio"
+                                            value={precio}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Precio
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="Descripcion"
+                                            placeholder="Descripcion"
+                                            name="Descripcion"
+                                            value={Descripcion}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Descripcion
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <input
+                                            type="file"
+                                            id="imagen"
+                                            name="imagen"
+                                            onChange={handleImagenChange}
+                                        />
+                                        <label className="label" htmlFor="floatingInput">
+                                            Imagen
+                                        </label>
+                                    </div>
+                                    <div className="form-group">
+                                        <button type="submit" className="form-control btn btn-primary submit px-3">
+                                            Actualizar Dulce
+                                        </button>
+                                        <Link to="/admin">Cancelar</Link>
+                                    </div>
+                                </form>
                             </div>
-                        </div>
-                        <div className="col">
                         </div>
                     </div>
                 </div>
-            </main>
-            <Footer />
+            </section></center>
+            <footer id="footer" className="footer">
+    <div className="container">
+      <div className="row gy-4">
+        <div className="col-lg-5 col-md-12 footer-info">
+          <a href="/admin" className="logo d-flex align-items-center">
+            <span>Mi Dulce Online</span>
+          </a>
+        </div>
+        <div className="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>
+            <strong>Telefono:</strong> +57 3102276950<br />
+            <strong>Correo:</strong> midulceonline@outlook.com<br />
+          </p>
+        </div>
+      </div>
+    </div>
+    <div className="container mt-4">
+      <div className="copyright">
+        © Copyright <strong><span>MiDulceOnline</span></strong>. Derechos Reservados
+      </div>
+    </div>
+  </footer>
         </div>
     );
 }
