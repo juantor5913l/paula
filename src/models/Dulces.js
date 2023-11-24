@@ -28,7 +28,11 @@ const DulcesSchema = new mongo.Schema(
             required: true
         },
         region: {
-            type: String, // O el tipo de dato que corresponda a tu implementación
+            type: String, 
+            required: true
+        },
+        categoria: {
+            type: String, 
             required: true
         }
     },

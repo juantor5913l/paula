@@ -30,10 +30,11 @@ const Creardulce = () => {
         precio: "",
         Descripcion: "",
         region: "",
+        categoria: "",
         imagen: ""
     });
 
-    const { referencia, nombre, cantidad, precio, Descripcion, region} = dulce;
+    const { referencia, nombre, cantidad, precio, Descripcion, region, categoria} = dulce;
 
     const onChange = (e) => {
         setdulce({
@@ -41,10 +42,16 @@ const Creardulce = () => {
             [e.target.name]: e.target.value
         });
     }
-    const onChangeRegion = (e) => {  // Nuevo evento para la región
+    const onChangeRegion = (e) => {  
         setdulce({
             ...dulce,
             region: e.target.value
+        });
+    }
+    const onChangeCategoria = (e) => {  
+        setdulce({
+            ...dulce,
+            categoria: e.target.value
         });
     }
 
@@ -79,6 +86,7 @@ const Creardulce = () => {
             precio: dulce.precio,
             Descripcion: dulce.Descripcion,
             region: dulce.region,
+            categoria: dulce.categoria,
             imagen: dulce.imagen
         }
 
@@ -99,6 +107,7 @@ const Creardulce = () => {
                 precio: "",
                 Descripcion: "",
                 region: "",
+                categoria: "",
                 imagen: "",
             });
         } else if (mensaje === "El dulce ya existe") {
@@ -125,6 +134,7 @@ const Creardulce = () => {
                         <ul>
                             <li><Link to="/crear">Agregar Dulce</Link></li>
                             <li><Link to="/list">Listar Dulce</Link></li>
+                            <li><Link to="/catalogo">Catalogo de Dulces</Link></li>
                             <li><Link to="/">Cerrar Sesion</Link></li>
                         </ul>
                     </nav>{/* .navbar */}
@@ -233,6 +243,23 @@ const Creardulce = () => {
                                      </select>
                                         <label className="label" htmlFor="floatingInput">
                                             Region
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <select className="form-select"
+                                        value={categoria}
+                                        onChange={onChangeCategoria}
+                                     >
+                                        <option>Seleccionar Categoría</option>
+                                        <option value="caramelo">Caramelos</option>
+                                        <option value="galletas">Galletas</option>
+                                        <option value="gomitas">Gomitas</option>
+                                        <option value="bebidas">Bebidas</option>
+                                        <option value="postre">Postre</option>
+                                        
+                                     </select>
+                                        <label className="label" htmlFor="floatingInput">
+                                            Categoria
                                         </label>
                                     </div>
                                     <div className="form-group mb-3">

@@ -9,6 +9,7 @@ import CrearDulce from "./pages/dulces/CrearDulce";
 import ActualizarDulce from "./pages/dulces/ActualizarDulce"; 
 import DulcesCatalogo from "./pages/dulces/DulcesCatalgo";
 import Perfil from "./pages/auth/Perfil";
+import Index from "./pages/auth/index";
 
 function App() {
   return (
@@ -18,11 +19,12 @@ function App() {
           <Route path="/login" exact element={<Login/>} />
           <Route path="/registrar" exact element={<CrearCuenta/>}/>
           <Route path="/admin" exact element={<Admin/>}/>
+          <Route path="/" exact element={<Index/>}/>
           <Route path="/perfil" exact element={<Perfil/>}/>
           <Route path="/list" exact element={<ListaDulces/>}/>
           <Route path="/crear" exact element={<CrearDulce/>} />
           <Route path="/actualizar/:id" exact element={<ActualizarDulce/>} />
-          <Route path="/" exact element={<DulcesCatalogo/>}/>
+          <Route path="/catalogo" exact element={<DulcesCatalogo/>}/>
         </Routes>
       </Router>
     </Fragment>

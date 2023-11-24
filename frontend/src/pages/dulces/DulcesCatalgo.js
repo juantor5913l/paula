@@ -1,20 +1,19 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import APIInvoke from "../../utils/APIInvoke";
 import swal from "sweetalert";
-import { Navigate } from 'react-router-dom';
-const DulcesCatalogo = () => {
 
+const DulcesCatalogo = () => {
     const navigate = useNavigate();
+
     const redirigirARegistro = () => {
-       navigate ("/registrar")
-    }
+        navigate("/registrar");
+    };
+
     const compraExitosa = () => {
         swal({
             title: "Compra",
-            text: "Se realizo la compra de forma exitosa",
+            text: "Se realizó la compra de forma exitosa",
             icon: "success",
             buttons: {
                 confirm: {
@@ -22,34 +21,48 @@ const DulcesCatalogo = () => {
                     value: true,
                     visible: true,
                     className: "btn btn-secondary",
-                    closeModal: true
-                }
-            }
-        })
-    }
-    const [dulces, setdulces] = useState([]);
+                    closeModal: true,
+                },
+            },
+        });
+    };
+
+    const [dulces, setDulces] = useState([]);
+    const [categorias, setCategorias] = useState([]);
     const [regiones, setRegiones] = useState([]);
     const [filtroRegion, setFiltroRegion] = useState("");
+    const [filtroCategoria, setFiltroCategoria] = useState("");
 
-    const cargardulces = async () => {
+    const cargarDulces = async () => {
         const response = await APIInvoke.invokeGET("/dulces/list");
-        console.log(response);
-        setdulces(response);
+        setDulces(response);
     };
+
+    const cargarCategorias = async () => {
+        const response = await APIInvoke.invokeGET("/dulces/categoria");
+        setCategorias(response);
+    };
+
     const cargarRegiones = async () => {
         const response = await APIInvoke.invokeGET("/dulces/regiones");
         setRegiones(response);
     };
 
+    const filtrarDulcesPorCategoria = async () => {
+        const response = await APIInvoke.invokeGET(`/dulces/list?categoria=${filtroCategoria}`);
+        setDulces(response);
+    };
+
     const filtrarDulcesPorRegion = async () => {
         const response = await APIInvoke.invokeGET(`/dulces/list?region=${filtroRegion}`);
-        setdulces(response);
+        setDulces(response);
     };
 
     useEffect(() => {
-        cargardulces();
+        cargarDulces();
+        cargarCategorias();
         cargarRegiones();
-    }, [])
+    }, []);
     return (
         <div>
              <header id="header" className="header d-flex align-items-center">
@@ -58,25 +71,16 @@ const DulcesCatalogo = () => {
           <h1>Mi Dulce Online<span>.</span></h1>
         </Link>
         <nav id="navbar" className="navbar">
-          <ul>
-            <li><a href ="#hero">Inicio</a></li>
-            <li><Link to="/registrar">Registrate</Link></li>
-            <li><Link to="/login">Iniciar Sesion</Link></li>
-          </ul>
+        <ul>
+            <li><Link to="/crear">Agregar Dulce</Link></li>
+            <li><Link to="/list">Listar Dulce</Link></li>
+            <li><Link to="/catalogo">Catalogo de dulces</Link></li>
+            <li><Link to="/">Cerrar Sesion</Link></li>
+        </ul>
         </nav>{/* .navbar */}
       </div>
     </header>
             <main>
-            <section id="hero" className="hero">
-      <div className="container position-relative">
-        <div className="row gy-5" data-aos="fade-in">
-          <div className="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-            <h2>Bienvenido a <span>Mi Dulce Online</span></h2>
-            <h4>Encuentra una gran variedad de dulces Colombianos :3</h4>
-          </div>
-        </div>
-      </div>
-    </section>
             <section className="py-3 text-center container">
                     <div className="row py-lg-3">
                         <div className="col-lg-6 col-md-8 mx-auto">
@@ -105,7 +109,31 @@ const DulcesCatalogo = () => {
                             >
                                 Filtrar por Región
                             </button>
+                            <select
+                                className="form-select"
+                                value={filtroCategoria}
+                                onChange={(e) => setFiltroCategoria(e.target.value)}
+                            >
+                                <option>Seleccionar Categoría</option>
+                                <option value="caramelo">Caramelos</option>
+                                <option value="galletas">Galletas</option>
+                                <option value="gomitas">Gomitas</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="postre">Postre</option>
+                                {categorias.map((categoria) => (
+                                <option key={categoria} value={categoria}>
+                                {categoria}
+                                </option>
+                                ))}
+                            </select>
+                            <button
+                                className="btn btn-primary mt-2"
+                                onClick={filtrarDulcesPorCategoria}
+                            >
+                            Filtrar por Categoría
+                            </button>
                         </div>
+                        
                     </div>
                 </section>
 

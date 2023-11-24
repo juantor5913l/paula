@@ -76,6 +76,7 @@ const Listadulces = () => {
                         <ul>
                             <li><Link to="/crear">Agregar Dulce</Link></li>
                             <li><Link to="/list">Listar Dulce</Link></li>
+                            <li><Link to="/catalogo">Catalogo de dulces</Link></li>
                             <li><Link to="/">Cerrar Sesion</Link></li>
                         </ul>
                     </nav>{/* .navbar */}
@@ -101,6 +102,7 @@ const Listadulces = () => {
                                         <th scope="col">Precio</th>
                                         <th scope="col">Descripcion</th>
                                         <th scope="col">Region</th>
+                                        <th scope="col">Categoria</th>
                                         <th scope="col">Imagen</th>
                                         <th> Acciones </th>
                                     </tr>
@@ -117,6 +119,7 @@ const Listadulces = () => {
                                                     <td>{item.precio}</td>
                                                     <td>{item.Descripcion}</td>
                                                     <td>{item.region}</td>
+                                                    <td>{item.categoria}</td>
                                                     <td>{<img src={item.imagen}></img>}</td>
                                                     <td>
                                                         <Link class="btn btn-outline-success mx-3"
