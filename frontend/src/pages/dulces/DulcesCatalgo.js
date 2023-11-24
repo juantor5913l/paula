@@ -1,10 +1,16 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import APIInvoke from "../../utils/APIInvoke";
 import swal from "sweetalert";
+import { Navigate } from 'react-router-dom';
 const DulcesCatalogo = () => {
+
+    const navigate = useNavigate();
+    const redirigirARegistro = () => {
+       navigate ("/registrar")
+    }
     const compraExitosa = () => {
         swal({
             title: "Compra",
@@ -22,38 +28,83 @@ const DulcesCatalogo = () => {
         })
     }
     const [dulces, setdulces] = useState([]);
+    const [regiones, setRegiones] = useState([]);
+    const [filtroRegion, setFiltroRegion] = useState("");
 
     const cargardulces = async () => {
         const response = await APIInvoke.invokeGET("/dulces/list");
         console.log(response);
         setdulces(response);
-    }
+    };
+    const cargarRegiones = async () => {
+        const response = await APIInvoke.invokeGET("/dulces/regiones");
+        setRegiones(response);
+    };
+
+    const filtrarDulcesPorRegion = async () => {
+        const response = await APIInvoke.invokeGET(`/dulces/list?region=${filtroRegion}`);
+        setdulces(response);
+    };
 
     useEffect(() => {
         cargardulces();
+        cargarRegiones();
     }, [])
     return (
         <div>
-            <header id="header" className="header d-flex align-items-center">
-                <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
-                    <Link to="/Home" className="logo d-flex align-items-center">
-                        <h1>Mi Dulce Online<span>.</span></h1>
-                    </Link>
-                    <nav id="navbar" className="navbar">
-                        <ul>
-                            <li><Link to="/perfil">Perfil</Link></li>
-                            <li><Link to="/cliente">Atras</Link></li>
-                            <li><Link to="/">Cerrar Sesion</Link></li>
-                        </ul>
-                    </nav>
-                </div>
-            </header>
+             <header id="header" className="header d-flex align-items-center">
+      <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
+        <Link to="/" className="logo d-flex align-items-center">
+          <h1>Mi Dulce Online<span>.</span></h1>
+        </Link>
+        <nav id="navbar" className="navbar">
+          <ul>
+            <li><a href ="#hero">Inicio</a></li>
+            <li><Link to="/registrar">Registrate</Link></li>
+            <li><Link to="/login">Iniciar Sesion</Link></li>
+          </ul>
+        </nav>{/* .navbar */}
+      </div>
+    </header>
             <main>
-
-                <section class="py-5 text-center container">
-                    <div class="row py-lg-5">
-                        <div class="col-lg-6 col-md-8 mx-auto">
-                            <h1 class="fw-light">Catalogo de dulces disponibles</h1>
+            <section id="hero" className="hero">
+      <div className="container position-relative">
+        <div className="row gy-5" data-aos="fade-in">
+          <div className="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+            <h2>Bienvenido a <span>Mi Dulce Online</span></h2>
+            <h4>Encuentra una gran variedad de dulces Colombianos :3</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+            <section className="py-3 text-center container">
+                    <div className="row py-lg-3">
+                        <div className="col-lg-6 col-md-8 mx-auto">
+                            <h1 className="fw-light">Catálogo de dulces disponibles</h1>
+                            <select
+                                className="form-select"
+                                value={filtroRegion}
+                                onChange={(e) => setFiltroRegion(e.target.value)}
+                            >
+                                <option>Seleccionar Region</option>
+                                <option value="andina">Region Andina</option>
+                                <option value="caribe">Region Caribe</option>
+                                <option value="pacifica">Region Pacifica</option>
+                                <option value="amazonica">Region Amazonica</option>
+                                <option value="orinoquia">Region Orinoquia</option>
+                                <option value="insular">Region Insular</option>
+                                {regiones.map((region) => (
+                                    <option key={region} value={region}>
+                                        {region}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                className="btn btn-primary mt-2"
+                                onClick={filtrarDulcesPorRegion}
+                            >
+                                Filtrar por Región
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -76,10 +127,12 @@ const DulcesCatalogo = () => {
                                                 <p class="card-text">{item.nombre}</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="btn-group">
-                                                        <button
-                                                            class="btn btn-sm btn-outline-secondary"
-                                                            onClick={(e) => compraExitosa()}
-                                                        >Comprar</button>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-secondary"
+                                                        onClick={() => redirigirARegistro()}
+                                                    >
+                                                        Comprar
+                                                    </button>
                                                     </div>
                                                     <small class="text-muted">Precio ${item.precio}</small>
                                                 </div>

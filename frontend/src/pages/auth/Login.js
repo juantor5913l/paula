@@ -54,16 +54,9 @@ const Login = () => {
             const acceso = response.mensaje;
     
             if (acceso === "Ingreso") {
-                const idRol = response.idRol; // Extraer el ID del rol de la respuesta
                 localStorage.setItem("user", response.usuario);
-                
-                // Redirigir según el rol
-                if (idRol === "655a590e6d60ee6e6679f989") {
-                    navegador("/cliente");
-                } else if (idRol === "655adf8599290f27821f8ef8") {
-                    navegador("/admin");
-                } // Agrega más condiciones según tus roles
-    
+                navegador("/admin");
+               
             } 
     
             setUsuario({

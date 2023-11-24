@@ -5,20 +5,19 @@ const jwt = require("jsonwebtoken");
 //Insertar dulce
 const dulceSave = async (req, res) =>  {
     try {
-        const {referencia, nombre, cantidad,precio,Descripcion} = req.body;
-        let dulce = await Dulce.findOne({referencia});
+        const { referencia, nombre, cantidad, precio, Descripcion, region, imagen } = req.body; // Agrega 'imagen' a la destructuración
+        let dulce = await Dulce.findOne({ referencia });
 
-        if(dulce){
+        if (dulce) {
             return res.status(400).json({
                 mensaje: "El dulce ya existe"
             }); 
-        }
-        else{
-            dulce = new Dulce(req.body);
+        } else {
+            dulce = new Dulce({ referencia, nombre, cantidad, precio, Descripcion, region, imagen });
             await dulce.save(); 
             return res.status(200).json({
                 mensaje: "El dulce fue creado"
-            })
+            });
         }
 
         const payload = {
@@ -44,10 +43,14 @@ const dulceSave = async (req, res) =>  {
     }
 }
 
+
 //Listar los dulces de la base de datos
 const dulcesList = async (req, res) => {
     try {
-        const listaDulces = await Dulce.find(); 
+        const { region } = req.query;
+        const filtro = region ? { region } : {}; // Agregar filtro por región si se proporciona
+
+        const listaDulces = await Dulce.find(filtro); 
         res.status(200).send(listaDulces); 
     } catch (error) {
         console.error(error); 

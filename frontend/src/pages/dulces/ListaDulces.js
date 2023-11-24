@@ -100,6 +100,7 @@ const Listadulces = () => {
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Precio</th>
                                         <th scope="col">Descripcion</th>
+                                        <th scope="col">Region</th>
                                         <th scope="col">Imagen</th>
                                         <th> Acciones </th>
                                     </tr>
@@ -115,6 +116,7 @@ const Listadulces = () => {
                                                     <td>{item.cantidad}</td>
                                                     <td>{item.precio}</td>
                                                     <td>{item.Descripcion}</td>
+                                                    <td>{item.region}</td>
                                                     <td>{<img src={item.imagen}></img>}</td>
                                                     <td>
                                                         <Link class="btn btn-outline-success mx-3"

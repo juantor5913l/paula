@@ -29,10 +29,11 @@ const Creardulce = () => {
         cantidad: "",
         precio: "",
         Descripcion: "",
+        region: "",
         imagen: ""
     });
 
-    const { referencia, nombre, cantidad, precio, Descripcion} = dulce;
+    const { referencia, nombre, cantidad, precio, Descripcion, region} = dulce;
 
     const onChange = (e) => {
         setdulce({
@@ -40,6 +41,13 @@ const Creardulce = () => {
             [e.target.name]: e.target.value
         });
     }
+    const onChangeRegion = (e) => {  // Nuevo evento para la región
+        setdulce({
+            ...dulce,
+            region: e.target.value
+        });
+    }
+
 
     const handleImagenChange = (e) => {
         // Manejar la carga de la imagen
@@ -70,6 +78,7 @@ const Creardulce = () => {
             cantidad: dulce.cantidad,
             precio: dulce.precio,
             Descripcion: dulce.Descripcion,
+            region: dulce.region,
             imagen: dulce.imagen
         }
 
@@ -89,6 +98,7 @@ const Creardulce = () => {
                 cantidad: "",
                 precio: "",
                 Descripcion: "",
+                region: "",
                 imagen: "",
             });
         } else if (mensaje === "El dulce ya existe") {
@@ -205,6 +215,24 @@ const Creardulce = () => {
                                         />
                                         <label className="label" htmlFor="floatingInput">
                                             Descripcion
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
+                                        <select className="form-select"
+                                        value={region}
+                                        onChange={onChangeRegion}
+                                     >
+                                        <option>Seleccionar Region</option>
+                                        <option value="andina">Region Andina</option>
+                                        <option value="caribe">Region Caribe</option>
+                                        <option value="pacifica">Region Pacifica</option>
+                                        <option value="amazonica">Region Amazonica</option>
+                                        <option value="orinoquia">Region Orinoquia</option>
+                                        <option value="insular">Region Insular</option>
+                                        
+                                     </select>
+                                        <label className="label" htmlFor="floatingInput">
+                                            Region
                                         </label>
                                     </div>
                                     <div className="form-group mb-3">
