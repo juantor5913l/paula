@@ -116,6 +116,12 @@ const CrearCuenta = () => {
                             className="signin-form"
                         >
                             <div className="form-group mb-3">
+                            <label
+                                    className="label"
+                                    htmlFor="floatingInput"
+                                >
+                                    Nombre
+                                </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -125,15 +131,18 @@ const CrearCuenta = () => {
                                     value={nombre}
                                     onChange={onChange}
                                     required
+                                    autoComplete="off"  
+                                    autoCapitalize="none"
                                 />
-                                <label
+                                
+                            </div>
+                            <div className="form-group mb-3">
+                            <label
                                     className="label"
                                     htmlFor="floatingInput"
                                 >
-                                    Nombre
+                                    Apellido
                                 </label>
-                            </div>
-                            <div className="form-group mb-3">
                                 <input
                                     type="text"
                                     className="form-control"
@@ -143,15 +152,18 @@ const CrearCuenta = () => {
                                     value={apellido}
                                     onChange={onChange}
                                     required
+                                    autoComplete="off"  
+                                    autoCapitalize="none"
                                 />
-                                <label
+                                
+                            </div>
+                            <div className="form-group mb-3">
+                            <label
                                     className="label"
                                     htmlFor="floatingInput"
                                 >
-                                    Apellido
+                                    Correo
                                 </label>
-                            </div>
-                            <div className="form-group mb-3">
                                 <input
                                     type="email"
                                     className="form-control"
@@ -161,15 +173,18 @@ const CrearCuenta = () => {
                                     value={email}
                                     onChange={onChange}
                                     required
+                                    autoComplete="off"  
+                                    autoCapitalize="none"
                                 />
-                                <label
+                                
+                            </div>
+                            <div className="form-group mb-3">
+                            <label
                                     className="label"
                                     htmlFor="floatingInput"
                                 >
-                                    Correo
+                                    Contraseña
                                 </label>
-                            </div>
-                            <div className="form-group mb-3">
                                 <input
                                     type="password"
                                     className="form-control"
@@ -180,12 +195,7 @@ const CrearCuenta = () => {
                                     onChange={onChange}
                                     required
                                 />
-                                <label
-                                    className="label"
-                                    htmlFor="floatingPassword"
-                                >
-                                    Contraseña
-                                </label>
+                                
                             </div>
                             <div className="form-group">
                                 <button
@@ -206,4 +216,4 @@ const CrearCuenta = () => {
     );
 }
 
-export default CrearCuenta; 
+export default CrearCuenta;

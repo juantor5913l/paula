@@ -120,7 +120,7 @@ const Listadulces = () => {
                                                     <td>{item.Descripcion}</td>
                                                     <td>{item.region}</td>
                                                     <td>{item.categoria}</td>
-                                                    <td>{<img src={item.imagen}></img>}</td>
+                                                    <td>{<img src={item.imagen} width={"170px"} height={"170px"}></img>}</td>
                                                     <td>
                                                         <Link class="btn btn-outline-success mx-3"
                                                             to={`/actualizar/${item._id}`} >

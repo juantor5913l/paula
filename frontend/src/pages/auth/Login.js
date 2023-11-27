@@ -5,23 +5,6 @@ import swal from "sweetalert";
 import '../auth/login/css/style.css';
 
 const Login = () => {
-    const alerta = (mensaje, tipo, titulo) => {
-        swal({
-            title: titulo,
-            text: mensaje,
-            icon: tipo,
-            buttons: {
-                confirm: {
-                    text: "Aceptar",
-                    value: true,
-                    visible: true,
-                    className: "btn btn-secondary",
-                    closeModal: true,
-                },
-            },
-        });
-    };
-
     const navegador = useNavigate();
 
     const [usuario, setUsuario] = useState({
@@ -42,6 +25,23 @@ const Login = () => {
         document.getElementById("email").focus();
     }, []);
 
+    const alerta = (mensaje, tipo, titulo) => {
+        swal({
+            title: titulo,
+            text: mensaje,
+            icon: tipo,
+            buttons: {
+                confirm: {
+                    text: "Aceptar",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-secondary",
+                    closeModal: true,
+                },
+            },
+        });
+    };
+
     const iniciarSesion = async () => {
         const data = {
             email: usuario.email,
@@ -56,8 +56,12 @@ const Login = () => {
             if (acceso === "Ingreso") {
                 localStorage.setItem("user", response.usuario);
                 navegador("/admin");
-               
-            } 
+                // Muestra la ventana emergente con el mensaje
+                alerta("Inicio de sesión exitoso", "success", "¡Bienvenido!");
+            } else {
+                // Muestra la ventana emergente con el mensaje de error
+                alerta("Credenciales incorrectas", "error", "Error al iniciar sesión");
+            }
     
             setUsuario({
                 email: "",
@@ -65,8 +69,11 @@ const Login = () => {
             });
         } catch (error) {
             console.error(error);
+            // Muestra la ventana emergente con el mensaje de error
+            alerta("Error al iniciar sesión", "error", "¡Oops!");
         }
     };
+
     const onSubmit = (e) => {
         e.preventDefault();
         iniciarSesion();
@@ -101,6 +108,12 @@ const Login = () => {
                                     className="signin-form"
                                 >
                                     <div className="form-group mb-3">
+                                        <label
+                                            className="label"
+                                            htmlFor="floatingInput"
+                                        >
+                                            Correo
+                                        </label>
                                         <input
                                             type="email"
                                             className="form-control"
@@ -110,15 +123,17 @@ const Login = () => {
                                             value={email}
                                             onChange={onChange}
                                             required
+                                            autoComplete="off"  
+                                            autoCapitalize="none"
                                         />
-                                        <label
-                                            className="label"
-                                            htmlFor="floatingInput"
-                                        >
-                                            Correo
-                                        </label>
                                     </div>
                                     <div className="form-group mb-3">
+                                        <label
+                                            className="label"
+                                            htmlFor="floatingPassword"
+                                        >
+                                            Contraseña
+                                        </label>
                                         <input
                                             type="password"
                                             className="form-control"
@@ -129,12 +144,6 @@ const Login = () => {
                                             onChange={onChange}
                                             required
                                         />
-                                        <label
-                                            className="label"
-                                            htmlFor="floatingPassword"
-                                        >
-                                            Contraseña
-                                        </label>
                                     </div>
                                     <div className="form-group">
                                         <button

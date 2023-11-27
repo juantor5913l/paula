@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 
-
+const userId = localStorage.getItem("user");
 const Actualizardulce = () => {
     const alerta = (mensaje, tipo, titulo) => {
         swal({
@@ -105,6 +105,13 @@ const Actualizardulce = () => {
         }
     };
 
+    const cerrarSesion = () => {
+        
+        localStorage.removeItem("user");
+
+        // Luego, redirige a la página de inicio de sesión o a donde desees después de cerrar sesión
+        window.location.href = "/";
+    }
     const onSubmit = (e) => {
         e.preventDefault();
         editardulce();
@@ -120,9 +127,9 @@ const Actualizardulce = () => {
                     <nav id="navbar" className="navbar">
                         <ul>
                             <li><Link to="/crear">Agregar Dulce</Link></li>
-                            <li><Link to="/list">Listar Dulce</Link></li>
+                            <li><Link to={`/cliente/${userId}`}>Listar Dulces</Link></li>
                             <li><Link to="/catalogo">Catalogo de Dulces</Link></li>
-                            <li><Link to="/">Cerrar Sesion</Link></li>
+                            <li><Link onClick={cerrarSesion}>Cerrar Sesión</Link></li>
                         </ul>
                     </nav>{/* .navbar */}
                 </div>

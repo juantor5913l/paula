@@ -9,6 +9,7 @@ const Admin = () => {
     if (idUsuario === null) {
         window.location.href = "/";
     }
+    const userId = localStorage.getItem("user");
     return (
 <div>
     
@@ -47,7 +48,7 @@ const Admin = () => {
             <div className="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay={200}>
               <div className="icon-box">
                 <div className="icon"><i className="bi bi-gem" /></div>
-                <h4 className="title"><Link to="/list">Ve los productos que estas vendiendo</Link></h4>
+                <h4 className="title"><Link to={`/cliente/${userId}`}>Ve los productos que estas vendiendo</Link></h4>
               </div>
             </div>{/*End Icon Box */}
             <div className="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay={200}>

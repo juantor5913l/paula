@@ -26,7 +26,7 @@ const DulcesCatalogo = () => {
             },
         });
     };
-
+    const userId = localStorage.getItem("user");
     const [dulces, setDulces] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [regiones, setRegiones] = useState([]);
@@ -57,6 +57,13 @@ const DulcesCatalogo = () => {
         const response = await APIInvoke.invokeGET(`/dulces/list?region=${filtroRegion}`);
         setDulces(response);
     };
+    const cerrarSesion = () => {
+        
+        localStorage.removeItem("user");
+
+        // Luego, redirige a la página de inicio de sesión o a donde desees después de cerrar sesión
+        window.location.href = "/";
+    }
 
     useEffect(() => {
         cargarDulces();
@@ -73,9 +80,9 @@ const DulcesCatalogo = () => {
         <nav id="navbar" className="navbar">
         <ul>
             <li><Link to="/crear">Agregar Dulce</Link></li>
-            <li><Link to="/list">Listar Dulce</Link></li>
+            <li><Link to={`/cliente/${userId}`}>Listar Dulces</Link></li>
             <li><Link to="/catalogo">Catalogo de dulces</Link></li>
-            <li><Link to="/">Cerrar Sesion</Link></li>
+            <li><Link onClick={cerrarSesion}>Cerrar Sesión</Link></li>
         </ul>
         </nav>{/* .navbar */}
       </div>
@@ -157,7 +164,7 @@ const DulcesCatalogo = () => {
                                                     <div class="btn-group">
                                                     <button
                                                         className="btn btn-sm btn-outline-secondary"
-                                                        onClick={() => redirigirARegistro()}
+                                                        onClick={(e) => compraExitosa()}
                                                     >
                                                         Comprar
                                                     </button>

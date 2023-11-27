@@ -10,6 +10,7 @@ import ActualizarDulce from "./pages/dulces/ActualizarDulce";
 import DulcesCatalogo from "./pages/dulces/DulcesCatalgo";
 import Perfil from "./pages/auth/Perfil";
 import Index from "./pages/auth/index";
+import ListadulcesId from "./pages/dulces/listarXid";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/crear" exact element={<CrearDulce/>} />
           <Route path="/actualizar/:id" exact element={<ActualizarDulce/>} />
           <Route path="/catalogo" exact element={<DulcesCatalogo/>}/>
+          <Route path="/cliente/:userId" exact element={<ListadulcesId />} />
         </Routes>
       </Router>
     </Fragment>
